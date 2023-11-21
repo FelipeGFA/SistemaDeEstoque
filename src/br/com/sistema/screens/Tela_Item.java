@@ -460,7 +460,6 @@ public class Tela_Item extends javax.swing.JFrame {
 
     private void BotaoItensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoItensActionPerformed
  
-
     }//GEN-LAST:event_BotaoItensActionPerformed
 
     private void BotaoFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFornecedoresActionPerformed

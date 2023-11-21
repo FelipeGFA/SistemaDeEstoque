@@ -4,19 +4,34 @@
  */
 package br.com.sistema.screens;
 
+import com.sun.jdi.connect.spi.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Lukitas
  */
 public class Tela_Login extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Loguin
-     */
-    public Tela_Login() {
-        initComponents();
+    
+    java.sql.Connection conectar = null;
+    Statement St = null, St1 = null;
+    PreparedStatement Pst = null;
+    ResultSet Rs = null, Rs1 = null;
+    
+    
+    public void login(){
+        try{
+            
+        }
+        
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+    
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -96,6 +111,11 @@ public class Tela_Login extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sistema/icons/icons8-lock-24.png"))); // NOI18N
 
         BotaoLogar.setText("Entrar");
+        BotaoLogar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotaoLogarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,6 +180,10 @@ public class Tela_Login extends javax.swing.JFrame {
     private void SenhaTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SenhaTbActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SenhaTbActionPerformed
+
+    private void BotaoLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoLogarActionPerformed
+        
+    }//GEN-LAST:event_BotaoLogarActionPerformed
 
     /**
      * @param args the command line arguments
