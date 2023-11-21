@@ -1,5 +1,7 @@
 package br.com.sistema.screens;
 
+import br.com.sistema.Connection.connector;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,13 +17,162 @@ import net.proteanit.sql.DbUtils;
 
 
 public class Tela_Fornecedor extends javax.swing.JFrame {
-
+    Connection conectar = null;
+    Statement St = null, St1 = null;
+    PreparedStatement Pst = null;
+    ResultSet Rs = null, Rs1 = null;
 
     public Tela_Fornecedor() {
         initComponents();
-        //DisplayFornecedores();
+        conectar = connector.Conector();
+        DisplayFornecedores();
+    }
+     
+    private void adicionar() {
+        String sql = "insert into fornecedorTbl(nome_fornecedor,endereco_fornecedor,email_fornecedor,telefone_fornecedor) values(?,?,?,?)";
+
+        try {
+            Pst = conectar.prepareStatement(sql);
+            Pst.setString(1, ForNomeTb.getText());
+            Pst.setString(2, ForEnderecoTb.getText());
+            Pst.setString(3, ForEmailTb.getText());
+            Pst.setString(4, ForTelefoneTb.getText());
+
+            // checks if the textfields are empty 
+            if (ForNomeTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "The client name cannot be empty");
+            } else if (ForEnderecoTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "The client adress cannot be empty");
+            } else if (ForEmailTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "The client phonenumber cannot be empty");
+            } else if (ForTelefoneTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "The client phonenumber cannot be empty");
+                
+            } else {
+                int added = Pst.executeUpdate();
+
+                if (added > 0) {
+                    JOptionPane.showMessageDialog(null, "Fornecedor adicionado com sucesso!");
+                    cleanpage();
+                    DisplayFornecedores();                  
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failled to register the client");
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    private void search() {
+        String sql = "select * from fornecedorTbl where id_fornecedor like ?";
+        try {
+            Pst = conectar.prepareStatement(sql);
+            Pst.setString(1, ProcurarForTb.getText() + "%");
+            Rs = Pst.executeQuery();
+            //this function comes from the library rs2xml
+            FornecedoresLista.setModel(DbUtils.resultSetToTableModel(Rs));
+        } catch (Exception e) {
+
+        }
+    }
+    
+    private void DisplayFornecedores(){
+        try{
+            conectar = (Connection) DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com:3306/sql10662533", "sql10662533", "9VUyNsa1k3");
+            St = (Statement) conectar.createStatement();
+            Rs = St.executeQuery("select * from fornecedorTbl");
+            FornecedoresLista.setModel(DbUtils.resultSetToTableModel(Rs));                 
+        }catch (Exception e){
+    }
     }
 
+    private void setSearchedClient() {
+        int set = FornecedoresLista.getSelectedRow();
+        ForIdTb.setText(FornecedoresLista.getModel().getValueAt(set, 0).toString());
+        ForNomeTb.setText(FornecedoresLista.getModel().getValueAt(set, 1).toString());
+        ForEnderecoTb.setText(FornecedoresLista.getModel().getValueAt(set, 2).toString());
+        ForEmailTb.setText(FornecedoresLista.getModel().getValueAt(set, 3).toString());
+        ForTelefoneTb.setText(FornecedoresLista.getModel().getValueAt(set, 4).toString());
+        //unables the add button so you dont add the same client thats already registered
+        AdicionarBotao.setEnabled(false);
+
+    }
+
+    private void atualizar() {
+        String sql = "Update fornecedorTbl set nome_fornecedor=? ,endereco_fornecedor=? ,telefone_fornecedor=? ,email_fornecedor=? where id_fornecedor =?";
+
+        try {
+            Pst = conectar.prepareStatement(sql);
+            Pst.setString(1, ForNomeTb.getText());
+            Pst.setString(2, ForEnderecoTb.getText());
+            Pst.setString(3, ForTelefoneTb.getText());
+            Pst.setString(4, ForEmailTb.getText());
+            Pst.setString(5, ForIdTb.getText());
+            //checks if the textfields are empty
+            if (ForNomeTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O nome do cliente não pode ficar vazio e deve ser um número");
+            } else if (ForEnderecoTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O endereço não pode ficar vazio");
+            } else if (ForTelefoneTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O número de telefone não pode ficar vazio");
+            } else if (ForEmailTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O email não pode ficar vazio"); 
+            } else {
+                int atualizado = Pst.executeUpdate(); 
+
+                if (atualizado > 0) {
+                    JOptionPane.showMessageDialog(null, "Usuario atualizado com sucesso");
+                    AdicionarBotao.setEnabled(true);
+                    cleanpage();
+                    DisplayFornecedores();
+                   
+                } else {
+                    JOptionPane.showMessageDialog(null, "Falha ao atualizar o usuario");
+                }
+            }
+        } catch (HeadlessException | SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }
+
+    private void delete() {
+        int confirm_delete = JOptionPane.showConfirmDialog(null, "are you sure you want to delete this client", "Warning", JOptionPane.YES_NO_OPTION);
+       if (confirm_delete == JOptionPane.YES_OPTION) {
+       String sql = "delete from fornecedorTbl where id_fornecedor=?";
+            try {
+                Pst = conectar.prepareStatement(sql);
+                Pst.setString(1, ForIdTb.getText());
+                int deleted = Pst.executeUpdate();
+                if (deleted > 0) {
+                 JOptionPane.showMessageDialog(null, "user deleted");
+                   cleanpage();
+                   DisplayFornecedores();
+                   AdicionarBotao.setEnabled(true);
+                }
+           }catch(SQLIntegrityConstraintViolationException errorsql){
+               JOptionPane.showMessageDialog(null, "It is not possible to delete a client with active service orders");
+          
+            }catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+               
+            }
+
+       }
+    }
+
+    private void cleanpage() {
+        ForIdTb.setText(null);
+        ForNomeTb.setText(null);
+        ForEnderecoTb.setText(null);
+        ForEmailTb.setText(null);
+        ForTelefoneTb.setText(null);
+        ((DefaultTableModel) FornecedoresLista.getModel()).setRowCount(0);
+
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -51,12 +202,11 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
         AdicionarBotao = new javax.swing.JButton();
         AtualizarBotao = new javax.swing.JButton();
         DeletarBotao = new javax.swing.JButton();
-        textfield_searchclient = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         ProcurarForTb = new javax.swing.JTextField();
         ProcurarBotao = new javax.swing.JButton();
         ForIdTb = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 0), new java.awt.Dimension(40, 32767));
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -138,28 +288,6 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
             }
         });
 
-        textfield_searchclient.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textfield_searchclientActionPerformed(evt);
-            }
-        });
-        textfield_searchclient.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                textfield_searchclientKeyReleased(evt);
-            }
-        });
-
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        ProcurarForTb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProcurarForTbActionPerformed(evt);
-            }
-        });
         ProcurarForTb.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 ProcurarForTbKeyReleased(evt);
@@ -196,29 +324,31 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(ForIdTb, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addGap(57, 57, 57)
+                                        .addGap(48, 48, 48)
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(ForNomeTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(ForNomeTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(49, 49, 49)
                                 .addComponent(AdicionarBotao)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(AtualizarBotao))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(AtualizarBotao)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(DeletarBotao))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
                                     .addComponent(ForEnderecoTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(53, 53, 53)))
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DeletarBotao)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(ForEmailTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(69, 69, 69)
+                                .addGap(40, 40, 40)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(ForTelefoneTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -227,14 +357,7 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1040, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 1080, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(20, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(398, 398, 398)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(textfield_searchclient, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(398, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,7 +370,7 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(ForTelefoneTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -281,20 +404,16 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ForEnderecoTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ForEnderecoTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(310, 310, 310)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton1)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(9, 9, 9)
-                            .addComponent(textfield_searchclient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(310, Short.MAX_VALUE)))
         );
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sistema/icons/vitas/Box-Open-icon.png"))); // NOI18N
@@ -352,11 +471,12 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -374,15 +494,15 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(BotaoItens, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                                        .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 6, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(BotaoFuncionarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(BotaoFuncionarios, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                                             .addComponent(BotaoFornecedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addComponent(BotaoFinanceiro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                                    .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 6, Short.MAX_VALUE)
                                     .addComponent(jSeparator4)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -432,15 +552,15 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(BotaoFinanceiro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(9, 9, 9))))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel12))))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -456,16 +576,9 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-Connection conectar = null;
-Statement St = null, St1 = null;
-PreparedStatement Pst = null;
-ResultSet Rs = null, Rs1 = null;
-
     
-    private void AdicionarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarBotaoActionPerformed
-        
-    }//GEN-LAST:event_AdicionarBotaoActionPerformed
- //int ForId;
+
+     //int ForId
        //void CountFor(){
            //try{
                //St1 = (Statement) conectar.createStatement();
@@ -476,63 +589,22 @@ ResultSet Rs = null, Rs1 = null;
         //}
   //}
         
-    //private void DisplayFornecedores(){
+   // private void DisplayFornecedores(){
         //try{
-          //conectar = (Connection) DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com:3306/sql10662533", "sql10662533", "9VUyNsa1k3");
-          //St = (Statement) conectar.createStatement();
-          //Rs = St.executeQuery("select * from fornecedorTbl");
-          //FornecedoresLista.setModel(DbUtils.resultSetToTableModel(Rs));                 
+         // conectar = (Connection) DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com:3306/sql10662533", "sql10662533", "9VUyNsa1k3");
+         // Pst = (PreparedStatement) conectar.createStatement();
+         // Rs = Pst.executeQuery("select * from fornecedorTbl");
+        //  FornecedoresLista.setModel(DbUtils.resultSetToTableModel(Rs));                 
       //}catch (Exception e){
-      //}
-    //}
-    private void AtualizarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarBotaoActionPerformed
-
-    }//GEN-LAST:event_AtualizarBotaoActionPerformed
-
-    private void FornecedoresListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FornecedoresListaMouseClicked
-
-    }//GEN-LAST:event_FornecedoresListaMouseClicked
-
-    private void textfield_searchclientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textfield_searchclientActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textfield_searchclientActionPerformed
-
-    private void textfield_searchclientKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textfield_searchclientKeyReleased
-    
-    }//GEN-LAST:event_textfield_searchclientKeyReleased
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void ProcurarForTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarForTbActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProcurarForTbActionPerformed
-    //private void search() {
-        //String sql = "select * from fornecedorTbl where id_fornecedor =  ?";
-        //try {
-            //Pst = conectar.prepareStatement(sql);
-            ///Pst.setString(1, textfield_searchclient.getText() + "%");
-            //Rs = Pst.executeQuery();
-            //this function comes from the library rs2xml
-            //FornecedoresLista.setModel(DbUtils.resultSetToTableModel(Rs));
-        //} catch (Exception e) {
-
-        //}
-    //}
-    private void ProcurarForTbKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ProcurarForTbKeyReleased
+    // }
+  //}
         
-    }//GEN-LAST:event_ProcurarForTbKeyReleased
-
-    private void ProcurarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarBotaoActionPerformed
-        
-    }//GEN-LAST:event_ProcurarBotaoActionPerformed
-
+   
     private void BotaoItensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoItensActionPerformed
-        Tela_Item tela_item = new Tela_Item();
-        tela_item.setVisible(true);
-        this.dispose();
-        
+       Tela_Item tela_item = new Tela_Item();
+       tela_item.setVisible(true);
+       this.dispose();
+
     }//GEN-LAST:event_BotaoItensActionPerformed
 
     private void BotaoFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFinanceiroActionPerformed
@@ -549,12 +621,31 @@ ResultSet Rs = null, Rs1 = null;
         Tela_Funcionario tela_funcionario = new Tela_Funcionario();
         tela_funcionario.setVisible(true);
         this.dispose();
-        
     }//GEN-LAST:event_BotaoFuncionariosActionPerformed
 
-    private void DeletarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletarBotaoActionPerformed
+    private void ProcurarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarBotaoActionPerformed
+        search();
+    }//GEN-LAST:event_ProcurarBotaoActionPerformed
 
+    private void ProcurarForTbKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ProcurarForTbKeyReleased
+        
+    }//GEN-LAST:event_ProcurarForTbKeyReleased
+
+    private void DeletarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletarBotaoActionPerformed
+    delete();
     }//GEN-LAST:event_DeletarBotaoActionPerformed
+
+    private void AtualizarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarBotaoActionPerformed
+        atualizar();
+    }//GEN-LAST:event_AtualizarBotaoActionPerformed
+
+    private void AdicionarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarBotaoActionPerformed
+        adicionar();
+    }//GEN-LAST:event_AdicionarBotaoActionPerformed
+
+    private void FornecedoresListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FornecedoresListaMouseClicked
+        setSearchedClient();
+    }//GEN-LAST:event_FornecedoresListaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -608,7 +699,7 @@ ResultSet Rs = null, Rs1 = null;
     private javax.swing.JTable FornecedoresLista;
     private javax.swing.JButton ProcurarBotao;
     private javax.swing.JTextField ProcurarForTb;
-    private javax.swing.JButton jButton1;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -632,6 +723,5 @@ ResultSet Rs = null, Rs1 = null;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JTextField textfield_searchclient;
     // End of variables declaration//GEN-END:variables
 }
