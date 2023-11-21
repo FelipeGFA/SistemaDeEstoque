@@ -525,11 +525,14 @@ int ForId;
     }//GEN-LAST:event_ProcurarBotaoActionPerformed
 
     private void BotaoItensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoItensActionPerformed
-        // TODO add your handling code here:
+        Tela_Item tela_item = new Tela_Item();
+        tela_item.setVisible(true);
+        
     }//GEN-LAST:event_BotaoItensActionPerformed
 
     private void BotaoFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFinanceiroActionPerformed
-        // TODO add your handling code here:
+        Tela_Financeiro tela_financeiro = new Tela_Financeiro();
+        tela_financeiro.setVisible(true);
     }//GEN-LAST:event_BotaoFinanceiroActionPerformed
 
     private void BotaoFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFornecedoresActionPerformed

@@ -461,20 +461,23 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     }//GEN-LAST:event_ProcurarFunBotaoActionPerformed
 
     private void BotaoItensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoItensActionPerformed
-        // TODO add your handling code here:
+        Tela_Item tela_item = new Tela_Item();
+        tela_item.setVisible(true);
     }//GEN-LAST:event_BotaoItensActionPerformed
 
     private void BotaoFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFornecedoresActionPerformed
-        // TODO add your handling code here:
+        Tela_Fornecedor tela_fornecedor = new Tela_Fornecedor();
+        tela_fornecedor.setVisible(true);
     }//GEN-LAST:event_BotaoFornecedoresActionPerformed
 
     private void BotaoFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFuncionariosActionPerformed
-       
+    
 
     }//GEN-LAST:event_BotaoFuncionariosActionPerformed
 
     private void BotaoFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFinanceiroActionPerformed
-        // TODO add your handling code here:
+        Tela_Financeiro tela_financeiro = new Tela_Financeiro();
+        tela_financeiro.setVisible(true);
     }//GEN-LAST:event_BotaoFinanceiroActionPerformed
 
     private void FunCpfTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FunCpfTbActionPerformed
