@@ -463,11 +463,13 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     private void BotaoItensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoItensActionPerformed
         Tela_Item tela_item = new Tela_Item();
         tela_item.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_BotaoItensActionPerformed
 
     private void BotaoFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFornecedoresActionPerformed
         Tela_Fornecedor tela_fornecedor = new Tela_Fornecedor();
         tela_fornecedor.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_BotaoFornecedoresActionPerformed
 
     private void BotaoFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFuncionariosActionPerformed
@@ -478,6 +480,7 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     private void BotaoFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFinanceiroActionPerformed
         Tela_Financeiro tela_financeiro = new Tela_Financeiro();
         tela_financeiro.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_BotaoFinanceiroActionPerformed
 
     private void FunCpfTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FunCpfTbActionPerformed
