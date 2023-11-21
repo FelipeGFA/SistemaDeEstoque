@@ -38,30 +38,30 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        ForNomeTb = new javax.swing.JTextField();
+        FunNomeTb = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        ForEnderecoTb = new javax.swing.JTextField();
+        FunCpfTb = new javax.swing.JTextField();
         jSeparator6 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         FornecedoresLista = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
-        ForEmailTb = new javax.swing.JTextField();
+        FunEmailTb = new javax.swing.JTextField();
         AdicionarBotao = new javax.swing.JButton();
         AtualizarBotao = new javax.swing.JButton();
         DeletarBotao = new javax.swing.JButton();
         textfield_searchclient = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        ProcurarTb = new javax.swing.JTextField();
-        ProcurarBotao = new javax.swing.JButton();
+        ProcurarFunTb = new javax.swing.JTextField();
+        ProcurarFunBotao = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        BotaoItens = new javax.swing.JButton();
+        BotaoFornecedores = new javax.swing.JButton();
         BotaoFuncionarios = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        BotaoFinanceiro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,6 +87,12 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         jLabel14.setText("CPF");
 
         jLabel15.setText("Nome ");
+
+        FunCpfTb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FunCpfTbActionPerformed(evt);
+            }
+        });
 
         FornecedoresLista.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         FornecedoresLista.setModel(new javax.swing.table.DefaultTableModel(
@@ -144,21 +150,21 @@ public class Tela_Funcionario extends javax.swing.JFrame {
             }
         });
 
-        ProcurarTb.addActionListener(new java.awt.event.ActionListener() {
+        ProcurarFunTb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProcurarTbActionPerformed(evt);
+                ProcurarFunTbActionPerformed(evt);
             }
         });
-        ProcurarTb.addKeyListener(new java.awt.event.KeyAdapter() {
+        ProcurarFunTb.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                ProcurarTbKeyReleased(evt);
+                ProcurarFunTbKeyReleased(evt);
             }
         });
 
-        ProcurarBotao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sistema/icons/vitas/icon_search.png"))); // NOI18N
-        ProcurarBotao.addActionListener(new java.awt.event.ActionListener() {
+        ProcurarFunBotao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sistema/icons/vitas/icon_search.png"))); // NOI18N
+        ProcurarFunBotao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProcurarBotaoActionPerformed(evt);
+                ProcurarFunBotaoActionPerformed(evt);
             }
         });
 
@@ -174,22 +180,22 @@ public class Tela_Funcionario extends javax.swing.JFrame {
                                 .addGap(45, 45, 45)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(ForNomeTb)
+                                        .addComponent(FunNomeTb)
                                         .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
-                                    .addComponent(ForEnderecoTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(FunCpfTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(ProcurarBotao)
+                                .addComponent(ProcurarFunBotao)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ProcurarTb, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(ProcurarFunTb, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(ForEmailTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(FunEmailTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
@@ -225,13 +231,13 @@ public class Tela_Funcionario extends javax.swing.JFrame {
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ForEmailTb, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FunEmailTb, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ForNomeTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ForEnderecoTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(FunNomeTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(FunCpfTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ProcurarBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ProcurarFunBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -239,7 +245,7 @@ public class Tela_Funcionario extends javax.swing.JFrame {
                                 .addComponent(DeletarBotao)
                                 .addComponent(AtualizarBotao)
                                 .addComponent(AdicionarBotao))
-                            .addComponent(ProcurarTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ProcurarFunTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(24, 24, 24)))
                 .addGap(46, 46, 46)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -267,23 +273,23 @@ public class Tela_Funcionario extends javax.swing.JFrame {
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sistema/icons/vitas/exit-to-app-icon.png"))); // NOI18N
 
-        jButton3.setBackground(new java.awt.Color(2, 0, 217));
-        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Itens");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        BotaoItens.setBackground(new java.awt.Color(2, 0, 217));
+        BotaoItens.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        BotaoItens.setForeground(new java.awt.Color(255, 255, 255));
+        BotaoItens.setText("Itens");
+        BotaoItens.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                BotaoItensActionPerformed(evt);
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(2, 0, 217));
-        jButton5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Fornecedores");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        BotaoFornecedores.setBackground(new java.awt.Color(2, 0, 217));
+        BotaoFornecedores.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        BotaoFornecedores.setForeground(new java.awt.Color(255, 255, 255));
+        BotaoFornecedores.setText("Fornecedores");
+        BotaoFornecedores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                BotaoFornecedoresActionPerformed(evt);
             }
         });
 
@@ -297,13 +303,13 @@ public class Tela_Funcionario extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(2, 0, 217));
-        jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Financeiro");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        BotaoFinanceiro.setBackground(new java.awt.Color(2, 0, 217));
+        BotaoFinanceiro.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        BotaoFinanceiro.setForeground(new java.awt.Color(255, 255, 255));
+        BotaoFinanceiro.setText("Financeiro");
+        BotaoFinanceiro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                BotaoFinanceiroActionPerformed(evt);
             }
         });
 
@@ -332,14 +338,14 @@ public class Tela_Funcionario extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(BotaoItens, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(BotaoFuncionarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(BotaoFornecedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(BotaoFinanceiro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
@@ -366,7 +372,7 @@ public class Tela_Funcionario extends javax.swing.JFrame {
                         .addGap(164, 164, 164)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BotaoItens, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -374,7 +380,7 @@ public class Tela_Funcionario extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(BotaoFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
@@ -391,7 +397,7 @@ public class Tela_Funcionario extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(BotaoFinanceiro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
@@ -441,35 +447,39 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void ProcurarTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarTbActionPerformed
+    private void ProcurarFunTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarFunTbActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ProcurarTbActionPerformed
+    }//GEN-LAST:event_ProcurarFunTbActionPerformed
 
-    private void ProcurarTbKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ProcurarTbKeyReleased
+    private void ProcurarFunTbKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ProcurarFunTbKeyReleased
         // TODO add your handling code here:
         //while is typing it keeps running the method (key released)
-    }//GEN-LAST:event_ProcurarTbKeyReleased
+    }//GEN-LAST:event_ProcurarFunTbKeyReleased
 
-    private void ProcurarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarBotaoActionPerformed
+    private void ProcurarFunBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarFunBotaoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ProcurarBotaoActionPerformed
+    }//GEN-LAST:event_ProcurarFunBotaoActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void BotaoItensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoItensActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_BotaoItensActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void BotaoFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFornecedoresActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_BotaoFornecedoresActionPerformed
 
     private void BotaoFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFuncionariosActionPerformed
        
 
     }//GEN-LAST:event_BotaoFuncionariosActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void BotaoFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFinanceiroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_BotaoFinanceiroActionPerformed
+
+    private void FunCpfTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FunCpfTbActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FunCpfTbActionPerformed
 
     /**
      * @param args the command line arguments
@@ -510,18 +520,18 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AdicionarBotao;
     private javax.swing.JButton AtualizarBotao;
+    private javax.swing.JButton BotaoFinanceiro;
+    private javax.swing.JButton BotaoFornecedores;
     private javax.swing.JButton BotaoFuncionarios;
+    private javax.swing.JButton BotaoItens;
     private javax.swing.JButton DeletarBotao;
-    private javax.swing.JTextField ForEmailTb;
-    private javax.swing.JTextField ForEnderecoTb;
-    private javax.swing.JTextField ForNomeTb;
     private javax.swing.JTable FornecedoresLista;
-    private javax.swing.JButton ProcurarBotao;
-    private javax.swing.JTextField ProcurarTb;
+    private javax.swing.JTextField FunCpfTb;
+    private javax.swing.JTextField FunEmailTb;
+    private javax.swing.JTextField FunNomeTb;
+    private javax.swing.JButton ProcurarFunBotao;
+    private javax.swing.JTextField ProcurarFunTb;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

@@ -68,16 +68,16 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jButton3" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="BotaoItens" alignment="0" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jSeparator2" pref="1" max="32767" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Component id="BotaoFuncionarios" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="jButton5" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="BotaoFornecedores" alignment="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Component id="jButton4" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="BotaoFinanceiro" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -114,7 +114,7 @@
                           <EmptySpace min="-2" pref="164" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jButton3" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="BotaoItens" min="-2" pref="31" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                               </Group>
@@ -124,7 +124,7 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jSeparator2" alignment="1" min="-2" pref="10" max="-2" attributes="0"/>
                               <Component id="jLabel9" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton5" alignment="1" min="-2" pref="29" max="-2" attributes="0"/>
+                              <Component id="BotaoFornecedores" alignment="1" min="-2" pref="29" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -146,7 +146,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel11" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton4" alignment="1" min="-2" pref="29" max="-2" attributes="0"/>
+                                      <Component id="BotaoFinanceiro" alignment="1" min="-2" pref="29" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -227,7 +227,7 @@
                                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="ForNomeTb" alignment="1" max="32767" attributes="0"/>
+                                              <Component id="FunNomeTb" alignment="1" max="32767" attributes="0"/>
                                               <Component id="jLabel13" alignment="1" max="32767" attributes="0"/>
                                           </Group>
                                           <Component id="jLabel15" alignment="0" min="-2" pref="88" max="-2" attributes="0"/>
@@ -235,20 +235,20 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="ForEnderecoTb" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
+                                          <Component id="FunCpfTb" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="ProcurarBotao" min="-2" max="-2" attributes="0"/>
+                                      <Component id="ProcurarFunBotao" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="ProcurarTb" min="-2" pref="283" max="-2" attributes="0"/>
+                                      <Component id="ProcurarFunTb" min="-2" pref="283" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                                      <Component id="ForEmailTb" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
+                                      <Component id="FunEmailTb" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
                                       <Component id="jLabel16" alignment="0" min="-2" pref="88" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -296,15 +296,15 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="ForEmailTb" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="FunEmailTb" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="ForNomeTb" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="ForEnderecoTb" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="FunNomeTb" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="FunCpfTb" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="ProcurarBotao" alignment="0" max="32767" attributes="0"/>
+                          <Component id="ProcurarFunBotao" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
@@ -313,7 +313,7 @@
                                       <Component id="AtualizarBotao" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="AdicionarBotao" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="ProcurarTb" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="ProcurarFunTb" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           </Group>
@@ -360,14 +360,17 @@
                 <Property name="text" type="java.lang.String" value="CPF"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="ForNomeTb">
+            <Component class="javax.swing.JTextField" name="FunNomeTb">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel15">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nome "/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="ForEnderecoTb">
+            <Component class="javax.swing.JTextField" name="FunCpfTb">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FunCpfTbActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator6">
             </Component>
@@ -404,7 +407,7 @@
                 <Property name="text" type="java.lang.String" value="Email"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="ForEmailTb">
+            <Component class="javax.swing.JTextField" name="FunEmailTb">
             </Component>
             <Component class="javax.swing.JButton" name="AdicionarBotao">
               <Properties>
@@ -439,20 +442,20 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="ProcurarTb">
+            <Component class="javax.swing.JTextField" name="ProcurarFunTb">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProcurarTbActionPerformed"/>
-                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ProcurarTbKeyReleased"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProcurarFunTbActionPerformed"/>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ProcurarFunTbKeyReleased"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="ProcurarBotao">
+            <Component class="javax.swing.JButton" name="ProcurarFunBotao">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/br/com/sistema/icons/vitas/icon_search.png"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProcurarBotaoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProcurarFunBotaoActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -492,7 +495,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="BotaoItens">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="d9" green="0" red="2" type="rgb"/>
@@ -506,10 +509,10 @@
             <Property name="text" type="java.lang.String" value="Itens"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotaoItensActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton5">
+        <Component class="javax.swing.JButton" name="BotaoFornecedores">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="d9" green="0" red="2" type="rgb"/>
@@ -523,7 +526,7 @@
             <Property name="text" type="java.lang.String" value="Fornecedores"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotaoFornecedoresActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="BotaoFuncionarios">
@@ -543,7 +546,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotaoFuncionariosActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="BotaoFinanceiro">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="d9" green="0" red="2" type="rgb"/>
@@ -557,7 +560,7 @@
             <Property name="text" type="java.lang.String" value="Financeiro"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotaoFinanceiroActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
