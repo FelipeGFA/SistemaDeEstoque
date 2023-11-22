@@ -632,7 +632,7 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_ProcurarForTbKeyReleased
 
     private void DeletarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletarBotaoActionPerformed
-    delete();
+        delete();
     }//GEN-LAST:event_DeletarBotaoActionPerformed
 
     private void AtualizarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarBotaoActionPerformed

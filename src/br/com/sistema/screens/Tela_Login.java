@@ -4,10 +4,16 @@
  */
 package br.com.sistema.screens;
 
+import br.com.sistema.Connection.connector;
 import com.sun.jdi.connect.spi.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,21 +21,11 @@ import javax.swing.JOptionPane;
  * @author Lukitas
  */
 public class Tela_Login extends javax.swing.JFrame {
-    
-    java.sql.Connection conectar = null;
-    Statement St = null, St1 = null;
-    PreparedStatement Pst = null;
-    ResultSet Rs = null, Rs1 = null;
-    
-    
-    public void login(){
-        try{
-            
-        }
-        
-        }catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-    
+   
+   
+   public Tela_Login() {
+
+        initComponents();
     }
     
     /**
@@ -235,4 +231,6 @@ public class Tela_Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    
 }
