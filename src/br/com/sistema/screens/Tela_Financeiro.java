@@ -4,17 +4,174 @@
  */
 package br.com.sistema.screens;
 
+import br.com.sistema.Connection.connector;
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author Lukitas
  */
 public class Tela_Financeiro extends javax.swing.JFrame {
+    Connection conectar = null;
+    Statement St = null, St1 = null;
+    PreparedStatement Pst = null;
+    ResultSet Rs = null, Rs1 = null;
 
     /**
      * Creates new form Category
      */
     public Tela_Financeiro() {
         initComponents();
+        conectar = connector.Conector();
+        DisplayFinanceiro();
+    }
+
+     private void adicionar() {
+        String sql = "insert into pagamentoTbl(data_transacao,pagamento_metodo,pagamento_status) values(?,?,?)";
+        
+        try {
+            Pst = conectar.prepareStatement(sql);
+            Pst.setString(1, FinDataTb.getText());
+            Pst.setString(2, FinMetoTb.getText());   
+            Pst.setString(3, FinStatusTb.getText());
+
+            // checks if the textfields are empty 
+            if (FinDataTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O ID é necessário");
+            } else if (FinMetoTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "A data precisa ser inserida");
+            } else if (FinStatusTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O metodo não pode ser nulo");
+                      
+            } else {
+                int added = Pst.executeUpdate();
+
+                if (added > 0) {
+                    JOptionPane.showMessageDialog(null, "Fornecedor adicionado com sucesso!");
+                    cleanpage();
+                    DisplayFinanceiro();                  
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Falha a registrar o cliente");
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    private void search() {
+        String sql = "select * from pagamentoTbl where id_pagamento like ?";
+        try {
+            Pst = conectar.prepareStatement(sql);
+            Pst.setString(1, ProcurarTb.getText() + "%");
+            Rs = Pst.executeQuery();
+            //this function comes from the library rs2xml
+            FinanceiroLista.setModel(DbUtils.resultSetToTableModel(Rs));
+        } catch (Exception e) {
+
+        }
+    }
+    
+    private void DisplayFinanceiro(){
+        try{
+            conectar = (Connection) DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com:3306/sql10662533", "sql10662533", "9VUyNsa1k3");
+            St = (Statement) conectar.createStatement();
+            Rs = St.executeQuery("select * from pagamentoTbl");
+            FinanceiroLista.setModel(DbUtils.resultSetToTableModel(Rs));                 
+        }catch (Exception e){
+    }
+    }
+
+    private void setSearchedClient() {
+        int set = FinanceiroLista.getSelectedRow();
+        ForNomeTb.setText(FinanceiroLista.getModel().getValueAt(set, 0).toString());
+        FinDataTb.setText(FinanceiroLista.getModel().getValueAt(set, 1).toString());
+        FinMetoTb.setText(FinanceiroLista.getModel().getValueAt(set, 2).toString());
+        FinStatusTb.setText(FinanceiroLista.getModel().getValueAt(set, 3).toString());
+        //unables the add button so you dont add the same client thats already registered
+        AdicionarBotao.setEnabled(false);
+
+    }
+
+    private void atualizar() {
+        String sql = "Update pagamentoTbl set data_transacao=? ,pagamento_metodo=? ,pagamento_status=? where id_pagamento =?";
+
+        try {
+            Pst = conectar.prepareStatement(sql);
+            Pst.setString(1, FinDataTb.getText());
+            Pst.setString(2, FinMetoTb.getText());
+            Pst.setString(3, FinStatusTb.getText());
+            Pst.setString(4, ForNomeTb.getText());
+            //checks if the textfields are empty
+            if (FinDataTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O ID é necessário");
+            } else if (FinMetoTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "A data precisa ser inserida");
+            } else if (FinStatusTb.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O metodo não pode ser nulo");            
+            } else {
+                int atualizado = Pst.executeUpdate(); 
+
+                if (atualizado > 0) {
+                    JOptionPane.showMessageDialog(null, "Usuario atualizado com sucesso");
+                    AdicionarBotao.setEnabled(true);
+                    cleanpage();
+                    DisplayFinanceiro();
+                   
+                } else {
+                    JOptionPane.showMessageDialog(null, "Falha ao atualizar o usuario");
+                }
+            }
+        } catch (HeadlessException | SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }
+
+    private void delete() {
+        int confirm_delete = JOptionPane.showConfirmDialog(null, "você tem certeza que quer deletar este cliente?", "Warning", JOptionPane.YES_NO_OPTION);
+       if (confirm_delete == JOptionPane.YES_OPTION) {
+       String sql = "delete from pagamentoTbl where id_pagamento=?";
+            try {
+                Pst = conectar.prepareStatement(sql);
+                Pst.setString(1, ForNomeTb.getText());
+                int deleted = Pst.executeUpdate();
+                if (deleted > 0) {
+                 JOptionPane.showMessageDialog(null, "usuario deletado");
+                   cleanpage();
+                   DisplayFinanceiro();
+                   AdicionarBotao.setEnabled(true);
+                }
+           }catch(SQLIntegrityConstraintViolationException errorsql){
+               JOptionPane.showMessageDialog(null, "Não é possivel deletar um cliente com serviços ativos");
+          
+            }catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+               
+            }
+
+       }
+    }
+
+    private void cleanpage() {
+        ForNomeTb.setText(null);
+        FinDataTb.setText(null);
+        FinMetoTb.setText(null);
+        FinStatusTb.setText(null);
+        ((DefaultTableModel) FinanceiroLista.getModel()).setRowCount(0);
+
     }
 
     /**
@@ -40,19 +197,17 @@ public class Tela_Financeiro extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         ForNomeTb = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        ForEnderecoTb = new javax.swing.JTextField();
+        FinDataTb = new javax.swing.JTextField();
         jSeparator6 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        FornecedoresLista = new javax.swing.JTable();
+        FinanceiroLista = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
-        ForEmailTb = new javax.swing.JTextField();
+        FinMetoTb = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        ForTelefoneTb = new javax.swing.JTextField();
+        FinStatusTb = new javax.swing.JTextField();
         AdicionarBotao = new javax.swing.JButton();
         AtualizarBotao = new javax.swing.JButton();
         DeletarBotao = new javax.swing.JButton();
-        textfield_searchclient = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         ProcurarTb = new javax.swing.JTextField();
         ProcurarBotao = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
@@ -90,8 +245,8 @@ public class Tela_Financeiro extends javax.swing.JFrame {
 
         jLabel15.setText("Id do Pagamento");
 
-        FornecedoresLista.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        FornecedoresLista.setModel(new javax.swing.table.DefaultTableModel(
+        FinanceiroLista.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        FinanceiroLista.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -102,13 +257,13 @@ public class Tela_Financeiro extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        FornecedoresLista.setRowHeight(40);
-        FornecedoresLista.addMouseListener(new java.awt.event.MouseAdapter() {
+        FinanceiroLista.setRowHeight(40);
+        FinanceiroLista.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                FornecedoresListaMouseClicked(evt);
+                FinanceiroListaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(FornecedoresLista);
+        jScrollPane1.setViewportView(FinanceiroLista);
 
         jLabel16.setText("Metodo de Pagamento");
 
@@ -130,32 +285,9 @@ public class Tela_Financeiro extends javax.swing.JFrame {
         });
 
         DeletarBotao.setText("Deletar");
-
-        textfield_searchclient.addActionListener(new java.awt.event.ActionListener() {
+        DeletarBotao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textfield_searchclientActionPerformed(evt);
-            }
-        });
-        textfield_searchclient.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                textfield_searchclientKeyReleased(evt);
-            }
-        });
-
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        ProcurarTb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProcurarTbActionPerformed(evt);
-            }
-        });
-        ProcurarTb.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                ProcurarTbKeyReleased(evt);
+                DeletarBotaoActionPerformed(evt);
             }
         });
 
@@ -184,7 +316,7 @@ public class Tela_Financeiro extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
-                                    .addComponent(ForEnderecoTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(FinDataTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(ProcurarBotao)
@@ -193,7 +325,7 @@ public class Tela_Financeiro extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(ForEmailTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(FinMetoTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel16))
                             .addComponent(AdicionarBotao))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,7 +337,7 @@ public class Tela_Financeiro extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(28, 28, 28)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ForTelefoneTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(FinStatusTb, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel17)))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
@@ -213,13 +345,6 @@ public class Tela_Financeiro extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1040, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 1080, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(89, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(398, 398, 398)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(textfield_searchclient, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(398, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,14 +360,14 @@ public class Tela_Financeiro extends javax.swing.JFrame {
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ForEmailTb, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(FinMetoTb, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(ForNomeTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(ForEnderecoTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(FinDataTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ForTelefoneTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(FinStatusTb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ProcurarBotao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -260,15 +385,6 @@ public class Tela_Financeiro extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(310, 310, 310)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton1)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(9, 9, 9)
-                            .addComponent(textfield_searchclient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(310, Short.MAX_VALUE)))
         );
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sistema/icons/vitas/Box-Open-icon.png"))); // NOI18N
@@ -431,41 +547,20 @@ public class Tela_Financeiro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void FornecedoresListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FornecedoresListaMouseClicked
-       
-    }//GEN-LAST:event_FornecedoresListaMouseClicked
+    private void FinanceiroListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FinanceiroListaMouseClicked
+       setSearchedClient();
+    }//GEN-LAST:event_FinanceiroListaMouseClicked
 
     private void AdicionarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarBotaoActionPerformed
-        
+        adicionar();
     }//GEN-LAST:event_AdicionarBotaoActionPerformed
 
     private void AtualizarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarBotaoActionPerformed
-        
+        atualizar();
     }//GEN-LAST:event_AtualizarBotaoActionPerformed
 
-    private void textfield_searchclientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textfield_searchclientActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textfield_searchclientActionPerformed
-
-    private void textfield_searchclientKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textfield_searchclientKeyReleased
-
-    }//GEN-LAST:event_textfield_searchclientKeyReleased
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void ProcurarTbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarTbActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProcurarTbActionPerformed
-
-    private void ProcurarTbKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ProcurarTbKeyReleased
-        // TODO add your handling code here:
-        //while is typing it keeps running the method (key released)
-    }//GEN-LAST:event_ProcurarTbKeyReleased
-
     private void ProcurarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcurarBotaoActionPerformed
-        // TODO add your handling code here:
+        search();
     }//GEN-LAST:event_ProcurarBotaoActionPerformed
 
     private void BotaoItensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoItensActionPerformed
@@ -489,6 +584,10 @@ public class Tela_Financeiro extends javax.swing.JFrame {
     private void BotaoFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFinanceiroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BotaoFinanceiroActionPerformed
+
+    private void DeletarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletarBotaoActionPerformed
+    delete();        // TODO add your handling code here:
+    }//GEN-LAST:event_DeletarBotaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -534,14 +633,13 @@ public class Tela_Financeiro extends javax.swing.JFrame {
     private javax.swing.JButton BotaoFuncionarios;
     private javax.swing.JButton BotaoItens;
     private javax.swing.JButton DeletarBotao;
-    private javax.swing.JTextField ForEmailTb;
-    private javax.swing.JTextField ForEnderecoTb;
+    private javax.swing.JTextField FinDataTb;
+    private javax.swing.JTextField FinMetoTb;
+    private javax.swing.JTextField FinStatusTb;
+    private javax.swing.JTable FinanceiroLista;
     private javax.swing.JTextField ForNomeTb;
-    private javax.swing.JTextField ForTelefoneTb;
-    private javax.swing.JTable FornecedoresLista;
     private javax.swing.JButton ProcurarBotao;
     private javax.swing.JTextField ProcurarTb;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -564,6 +662,5 @@ public class Tela_Financeiro extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JTextField textfield_searchclient;
     // End of variables declaration//GEN-END:variables
 }

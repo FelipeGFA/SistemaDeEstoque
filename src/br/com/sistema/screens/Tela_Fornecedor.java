@@ -576,30 +576,7 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
 
-     //int ForId
-       //void CountFor(){
-           //try{
-               //St1 = (Statement) conectar.createStatement();
-               //Rs1 = St1.executeQuery("Select Max(id_fornecedor) from fornecedorTbl");
-               //Rs1.next();
-               //ForId = Rs1.getInt(1)+1;                                     
-           //}catch (Exception e){
-        //}
-  //}
-        
-   // private void DisplayFornecedores(){
-        //try{
-         // conectar = (Connection) DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com:3306/sql10662533", "sql10662533", "9VUyNsa1k3");
-         // Pst = (PreparedStatement) conectar.createStatement();
-         // Rs = Pst.executeQuery("select * from fornecedorTbl");
-        //  FornecedoresLista.setModel(DbUtils.resultSetToTableModel(Rs));                 
-      //}catch (Exception e){
-    // }
-  //}
-        
-   
     private void BotaoItensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoItensActionPerformed
        Tela_Item tela_item = new Tela_Item();
        tela_item.setVisible(true);
