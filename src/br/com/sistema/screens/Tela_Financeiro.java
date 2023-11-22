@@ -47,22 +47,22 @@ public class Tela_Financeiro extends javax.swing.JFrame {
 
             // checks if the textfields are empty 
             if (FinDataTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O ID é necessário");
+                JOptionPane.showMessageDialog(null, "A data está vazia.");
             } else if (FinMetoTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "A data precisa ser inserida");
+                JOptionPane.showMessageDialog(null, "O metodo de pagamento está vazio.");
             } else if (FinStatusTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O metodo não pode ser nulo");
+                JOptionPane.showMessageDialog(null, "O status de pagamento está vazio.");
                       
             } else {
                 int added = Pst.executeUpdate();
 
                 if (added > 0) {
-                    JOptionPane.showMessageDialog(null, "Fornecedor adicionado com sucesso!");
+                    JOptionPane.showMessageDialog(null, "Adicionado com sucesso!");
                     cleanpage();
                     DisplayFinanceiro();                  
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Falha a registrar o cliente");
+                    JOptionPane.showMessageDialog(null, "Falha ao registrar.");
                 }
             }
 
@@ -116,22 +116,22 @@ public class Tela_Financeiro extends javax.swing.JFrame {
             Pst.setString(4, ForNomeTb.getText());
             //checks if the textfields are empty
             if (FinDataTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O ID é necessário");
+                JOptionPane.showMessageDialog(null, "A data está vazia.");
             } else if (FinMetoTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "A data precisa ser inserida");
+                JOptionPane.showMessageDialog(null, "O metodo de pagamento está vazio.");
             } else if (FinStatusTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O metodo não pode ser nulo");            
+                JOptionPane.showMessageDialog(null, "O status de pagamento está vazio.");            
             } else {
                 int atualizado = Pst.executeUpdate(); 
 
                 if (atualizado > 0) {
-                    JOptionPane.showMessageDialog(null, "Usuario atualizado com sucesso");
+                    JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
                     AdicionarBotao.setEnabled(true);
                     cleanpage();
                     DisplayFinanceiro();
                    
                 } else {
-                    JOptionPane.showMessageDialog(null, "Falha ao atualizar o usuario");
+                    JOptionPane.showMessageDialog(null, "Falha ao atualizar.");
                 }
             }
         } catch (HeadlessException | SQLException e) {
@@ -141,7 +141,7 @@ public class Tela_Financeiro extends javax.swing.JFrame {
     }
 
     private void delete() {
-        int confirm_delete = JOptionPane.showConfirmDialog(null, "você tem certeza que quer deletar este cliente?", "Warning", JOptionPane.YES_NO_OPTION);
+        int confirm_delete = JOptionPane.showConfirmDialog(null, "você tem certeza que quer deletar?", "Aviso!", JOptionPane.YES_NO_OPTION);
        if (confirm_delete == JOptionPane.YES_OPTION) {
        String sql = "delete from pagamentoTbl where id_pagamento=?";
             try {
@@ -149,13 +149,13 @@ public class Tela_Financeiro extends javax.swing.JFrame {
                 Pst.setString(1, ForNomeTb.getText());
                 int deleted = Pst.executeUpdate();
                 if (deleted > 0) {
-                 JOptionPane.showMessageDialog(null, "usuario deletado");
+                 JOptionPane.showMessageDialog(null, "Deletado");
                    cleanpage();
                    DisplayFinanceiro();
                    AdicionarBotao.setEnabled(true);
                 }
            }catch(SQLIntegrityConstraintViolationException errorsql){
-               JOptionPane.showMessageDialog(null, "Não é possivel deletar um cliente com serviços ativos");
+               JOptionPane.showMessageDialog(null, "Não é possivel deletar um financiamento com serviços ativos");
           
             }catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
@@ -233,6 +233,11 @@ public class Tela_Financeiro extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(250, 250, 250));
         jLabel5.setText("Sair");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sistema/icons/vitas/Logo 4848.png"))); // NOI18N
 
@@ -588,6 +593,11 @@ public class Tela_Financeiro extends javax.swing.JFrame {
     private void DeletarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletarBotaoActionPerformed
     delete();        // TODO add your handling code here:
     }//GEN-LAST:event_DeletarBotaoActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        new Tela_Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments

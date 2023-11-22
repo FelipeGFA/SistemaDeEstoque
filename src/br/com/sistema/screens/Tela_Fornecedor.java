@@ -40,13 +40,13 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
 
             // checks if the textfields are empty 
             if (ForNomeTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "The client name cannot be empty");
+                JOptionPane.showMessageDialog(null, "O nome do fornecedor está vazio.");
             } else if (ForEnderecoTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "The client adress cannot be empty");
+                JOptionPane.showMessageDialog(null, "O endereço do fornecedor está vazio.");
             } else if (ForEmailTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "The client phonenumber cannot be empty");
+                JOptionPane.showMessageDialog(null, "O email do fornecedor está vazio.");
             } else if (ForTelefoneTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "The client phonenumber cannot be empty");
+                JOptionPane.showMessageDialog(null, "O telefone do fornecedor está vazio.");
                 
             } else {
                 int added = Pst.executeUpdate();
@@ -57,7 +57,7 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
                     DisplayFornecedores();                  
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Failled to register the client");
+                    JOptionPane.showMessageDialog(null, "Falha ao adicionar o fornecedor,.");
                 }
             }
 
@@ -140,7 +140,7 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
     }
 
     private void delete() {
-        int confirm_delete = JOptionPane.showConfirmDialog(null, "are you sure you want to delete this client", "Warning", JOptionPane.YES_NO_OPTION);
+        int confirm_delete = JOptionPane.showConfirmDialog(null, "Você quer excluir esse fornecedor?", "Aviso!", JOptionPane.YES_NO_OPTION);
        if (confirm_delete == JOptionPane.YES_OPTION) {
        String sql = "delete from fornecedorTbl where id_fornecedor=?";
             try {
@@ -148,13 +148,13 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
                 Pst.setString(1, ForIdTb.getText());
                 int deleted = Pst.executeUpdate();
                 if (deleted > 0) {
-                 JOptionPane.showMessageDialog(null, "user deleted");
+                 JOptionPane.showMessageDialog(null, "Fornecedor excluido!");
                    cleanpage();
                    DisplayFornecedores();
                    AdicionarBotao.setEnabled(true);
                 }
            }catch(SQLIntegrityConstraintViolationException errorsql){
-               JOptionPane.showMessageDialog(null, "It is not possible to delete a client with active service orders");
+               JOptionPane.showMessageDialog(null, "It is not possible to delete a fornecedor with active service orders");
           
             }catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
@@ -230,6 +230,11 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(250, 250, 250));
         jLabel5.setText("Sair");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sistema/icons/vitas/Logo 4848.png"))); // NOI18N
 
@@ -623,6 +628,11 @@ public class Tela_Fornecedor extends javax.swing.JFrame {
     private void FornecedoresListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FornecedoresListaMouseClicked
         setSearchedClient();
     }//GEN-LAST:event_FornecedoresListaMouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        new Tela_Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments

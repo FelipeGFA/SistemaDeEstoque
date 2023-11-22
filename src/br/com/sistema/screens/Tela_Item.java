@@ -48,22 +48,22 @@ public class Tela_Item extends javax.swing.JFrame {
             
             // checks if the textfields are empty 
             if (ItemNomeTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "The client name cannot be empty");
+                JOptionPane.showMessageDialog(null, "O Item está vazio");
             } else if (ItemCodigoTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "The client adress cannot be empty");
+                JOptionPane.showMessageDialog(null, "O Codigo do item está vazio");
             } else if (ItemQuantTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "The client phonenumber cannot be empty");
+                JOptionPane.showMessageDialog(null, "A Quantidade de itens está vazia");
                 
             } else {
                 int added = Pst.executeUpdate();
 
                 if (added > 0) {
-                    JOptionPane.showMessageDialog(null, "Fornecedor adicionado com sucesso!");
+                    JOptionPane.showMessageDialog(null, "Item adicionado com sucesso!");
                     cleanpage();
                     DisplayItens();                  
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Failled to register the client");
+                    JOptionPane.showMessageDialog(null, "Falha ao adicionar o item.");
                 }
             }
 
@@ -96,23 +96,23 @@ public class Tela_Item extends javax.swing.JFrame {
             Pst.setString(4, ItemIdTb.getText());    
             //checks if the textfields are empty
             if (ItemNomeTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O nome do cliente não pode ficar vazio e deve ser um número");
+                JOptionPane.showMessageDialog(null, "O nome do item está vazio.");
             } else if (ItemCodigoTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O endereço não pode ficar vazio");
+                JOptionPane.showMessageDialog(null, "O código do item está vazio.");
             } else if (ItemQuantTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O número de telefone não pode ficar vazio");
+                JOptionPane.showMessageDialog(null, "A quantidade do item está vazio.");
                 
             } else {
                 int atualizado = Pst.executeUpdate(); 
 
                 if (atualizado > 0) {
-                    JOptionPane.showMessageDialog(null, "Usuario atualizado com sucesso");
+                    JOptionPane.showMessageDialog(null, "Item atualizado com sucesso!");
                     AdicionarBotao.setEnabled(true);
                     cleanpage();
                     DisplayItens();
                    
                 } else {
-                    JOptionPane.showMessageDialog(null, "Falha ao atualizar o usuario");
+                    JOptionPane.showMessageDialog(null, "Falha ao atualizar o item.");
                 }
             }
         } catch (HeadlessException | SQLException e) {
@@ -122,7 +122,7 @@ public class Tela_Item extends javax.swing.JFrame {
     }
     
     private void delete() {
-        int confirm_delete = JOptionPane.showConfirmDialog(null, "are you sure you want to delete this client", "Warning", JOptionPane.YES_NO_OPTION);
+        int confirm_delete = JOptionPane.showConfirmDialog(null, "Você quer excluir esse item?", "Aviso!", JOptionPane.YES_NO_OPTION);
         if (confirm_delete == JOptionPane.YES_OPTION) {
         String sql = "delete from itemTabela where id_item=?";
             try {
@@ -130,7 +130,7 @@ public class Tela_Item extends javax.swing.JFrame {
                 Pst.setString(1, ItemIdTb.getText());
                 int deleted = Pst.executeUpdate();
                 if (deleted > 0) {
-                 JOptionPane.showMessageDialog(null, "user deleted");                   
+                 JOptionPane.showMessageDialog(null, "Item deletado!");                   
                    cleanpage();
                    DisplayItens();
                    AdicionarBotao.setEnabled(true);
@@ -138,7 +138,7 @@ public class Tela_Item extends javax.swing.JFrame {
                    
                 }
            }catch(SQLIntegrityConstraintViolationException errorsql){
-               JOptionPane.showMessageDialog(null, "It is not possible to delete a client with active service orders");
+               JOptionPane.showMessageDialog(null, "It is not possible to delete an item with active service orders");
           
             }catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
@@ -236,6 +236,11 @@ public class Tela_Item extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(250, 250, 250));
         jLabel5.setText("Sair");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sistema/icons/vitas/Logo 4848.png"))); // NOI18N
 
@@ -593,6 +598,11 @@ public class Tela_Item extends javax.swing.JFrame {
     private void DeletarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletarBotaoActionPerformed
         delete();
     }//GEN-LAST:event_DeletarBotaoActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        new Tela_Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments

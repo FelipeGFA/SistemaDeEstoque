@@ -44,21 +44,21 @@ public class Tela_Funcionario extends javax.swing.JFrame {
 
             // checks if the textfields are empty 
             if (FunNomeTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "The client name cannot be empty");
+                JOptionPane.showMessageDialog(null, "O nome do funcionário está vazio.");
             } else if (FunCpfTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "The client adress cannot be empty");
+                JOptionPane.showMessageDialog(null, "O CPF do funcionário está vazio.");
             } else if (FunEmailTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "The client phonenumber cannot be empty");
+                JOptionPane.showMessageDialog(null, "O email do funcionário está vazio.");
             } else {
                 int added = Pst.executeUpdate();
 
                 if (added > 0) {
-                    JOptionPane.showMessageDialog(null, "FUNCIONARIO adicionado com sucesso!");
+                    JOptionPane.showMessageDialog(null, "Funcionário adicionado com sucesso!");
                     cleanpage();
                     DisplayFuncionario();                  
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Failled to register the client/NOME");
+                    JOptionPane.showMessageDialog(null, "Falha ao adicionar funcionário.");
                 }
             }
 
@@ -114,22 +114,22 @@ public class Tela_Funcionario extends javax.swing.JFrame {
             
             //checks if the textfields are empty
             if (FunNomeTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O id do funcionário não pode ficar vazio e deve ser um número");
+                JOptionPane.showMessageDialog(null, "O nome do funcionário está vazio.");
             } else if (FunCpfTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O nome não pode ficar vazio");}
+                JOptionPane.showMessageDialog(null, "O CPF do funcionário está vazio.");}
             else if (FunEmailTb.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O CPF não pode ficar vazio");           
+                JOptionPane.showMessageDialog(null, "O email do funcionário está vazio.");           
             }  else {
                 int atualizado = Pst.executeUpdate(); 
 
                 if (atualizado > 0) {
-                    JOptionPane.showMessageDialog(null, "Usuario atualizado com sucesso");
+                    JOptionPane.showMessageDialog(null, "Funcionário atualizado com sucesso");
                     AdicionarBotao.setEnabled(true);
                     cleanpage();
                     DisplayFuncionario();
                    
                 } else {
-                    JOptionPane.showMessageDialog(null, "Falha ao atualizar o usuario");
+                    JOptionPane.showMessageDialog(null, "Falha ao atualizar o funcionário");
                 }
             }
         } catch (HeadlessException | SQLException e) {
@@ -139,7 +139,7 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     }
 
     private void delete() {
-        int confirm_delete = JOptionPane.showConfirmDialog(null, "are you sure you want to delete this client", "Warning", JOptionPane.YES_NO_OPTION);
+        int confirm_delete = JOptionPane.showConfirmDialog(null, "Você deseja excluir esse funcionário?", "Aviso!", JOptionPane.YES_NO_OPTION);
        if (confirm_delete == JOptionPane.YES_OPTION) {
        String sql = "delete from funcionarioTbl where id_funcionario=?";
             try {
@@ -147,13 +147,13 @@ public class Tela_Funcionario extends javax.swing.JFrame {
                 Pst.setString(1, FunIdTb.getText());
                 int deleted = Pst.executeUpdate();
                 if (deleted > 0) {
-                 JOptionPane.showMessageDialog(null, "user/FUNCIONARIO deleted");
+                 JOptionPane.showMessageDialog(null, "Funcionário deletado!");
                    cleanpage();
                    DisplayFuncionario();
                    AdicionarBotao.setEnabled(true);
                 }
            }catch(SQLIntegrityConstraintViolationException errorsql){
-               JOptionPane.showMessageDialog(null, "It is not possible to delete a client with active service orders");
+               JOptionPane.showMessageDialog(null, "It is not possible to delete a funcionário with active service orders");
           
             }catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
@@ -227,6 +227,11 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(250, 250, 250));
         jLabel5.setText("Sair");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jLabel4.setBackground(new java.awt.Color(250, 250, 250));
         jLabel4.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
@@ -628,6 +633,11 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         tela_financeiro.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_BotaoFinanceiroActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        new Tela_Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments

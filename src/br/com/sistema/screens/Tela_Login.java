@@ -178,7 +178,11 @@ public class Tela_Login extends javax.swing.JFrame {
     }//GEN-LAST:event_SenhaTbActionPerformed
 
     private void BotaoLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoLogarActionPerformed
-        
+        Tela_Item tela_item = new Tela_Item();
+        tela_item.setVisible(true);
+        this.dispose();
+
+                
     }//GEN-LAST:event_BotaoLogarActionPerformed
 
     /**
